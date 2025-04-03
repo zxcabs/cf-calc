@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Infusion from "./Infusion.svelte";
-    import Forged from "./Forged.svelte";
+    import Infusion from './Infusion.svelte'
+    import Forged from './Forged.svelte'
 
-    let Current = $state(Infusion);
+    let Current = $state(Infusion)
 </script>
 
 <div>

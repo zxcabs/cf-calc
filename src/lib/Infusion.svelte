@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { ceilTo } from "../utils/utils.ts";
+    import { ceilTo } from '../utils/utils'
 
-    let hardenerRation = $state(0.22);
-    let resinCorrectionRation = $state(1.15);
-    let carbonResinRation = $state(40 / 60);
+    let hardenerRation = $state(0.22)
+    let resinCorrectionRation = $state(1.15)
+    let carbonResinRation = $state(40 / 60)
 
     let layers = $state([
         {
@@ -11,32 +11,24 @@
             p: 240,
             count: 1,
         },
-    ]);
+    ])
 
     let carbonWeight = $derived.by(() => {
-        if (!layers.length) return 0;
+        if (!layers.length) return 0
 
         return ceilTo(
             layers.reduce((sum, { s, p, count }) => sum + s * p * count, 0),
             6,
-        );
-    });
+        )
+    })
 
-    let resinTotalWeight = $derived(
-        ceilTo(carbonWeight * carbonResinRation, 3),
-    );
-    let resinTotalWeightWithCorrection = $derived(
-        ceilTo(resinTotalWeight * resinCorrectionRation, 3),
-    );
-    let resinWeight = $derived(
-        ceilTo(resinTotalWeightWithCorrection * (1 - hardenerRation), 3),
-    );
-    let hardenerWeight = $derived(
-        ceilTo(resinTotalWeightWithCorrection * hardenerRation, 3),
-    );
+    let resinTotalWeight = $derived(ceilTo(carbonWeight * carbonResinRation, 3))
+    let resinTotalWeightWithCorrection = $derived(ceilTo(resinTotalWeight * resinCorrectionRation, 3))
+    let resinWeight = $derived(ceilTo(resinTotalWeightWithCorrection * (1 - hardenerRation), 3))
+    let hardenerWeight = $derived(ceilTo(resinTotalWeightWithCorrection * hardenerRation, 3))
 
-    function removeLayer(layer) {
-        layers = layers.filter((l) => l !== layer);
+    function removeLayer(layer: { s: number; p: number; count: number }) {
+        layers = layers.filter(l => l !== layer)
     }
 
     function addLayer() {
@@ -47,7 +39,7 @@
                 p: 240,
                 count: 1,
             },
-        ];
+        ]
     }
 </script>
 
@@ -67,11 +59,7 @@
                     <div>Площадь слоя: <input bind:value={layer.s} /> мˆ2</div>
                     <div>Плотность: <input bind:value={layer.p} /> г/мˆ2</div>
                     <div>
-                        Количество слоев: <input
-                            type="number"
-                            min="1"
-                            bind:value={layer.count}
-                        />
+                        Количество слоев: <input type="number" min="1" bind:value={layer.count} />
                     </div>
                     <button onclick={() => removeLayer(layer)}>Удалить</button>
                 </li>

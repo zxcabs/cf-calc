@@ -1,28 +1,22 @@
 <script lang="ts">
-    import { ceilTo } from "../utils/utils.ts";
+    import { ceilTo } from '../utils/utils'
 
-    let v = $state(0);
-    let ratio = $state(1.4);
-    let carbonRation = $state(0.6);
-    let resinRation = $state(0.4);
+    let v = $state(0)
+    let ratio = $state(1.4)
+    let carbonRation = $state(0.6)
+    let resinRation = $state(0.4)
 
-    let hardenerRation = $state(0.22);
-    let resinCorrectionRation = $state(1.15);
+    let hardenerRation = $state(0.22)
+    let resinCorrectionRation = $state(1.15)
 
-    let totalWeight = $derived(v * ratio);
-    let carbonWeight = $derived(totalWeight * carbonRation);
-    let resinWeight = $derived(totalWeight * resinRation);
-    let resinTotalWeightWithCorrection = $derived(
-        resinWeight * resinCorrectionRation,
-    );
+    let totalWeight = $derived(v * ratio)
+    let carbonWeight = $derived(totalWeight * carbonRation)
+    let resinWeight = $derived(totalWeight * resinRation)
+    let resinTotalWeightWithCorrection = $derived(resinWeight * resinCorrectionRation)
 
-    let resinWeightWithCorrection = $derived(
-        resinTotalWeightWithCorrection * (1 - hardenerRation),
-    );
+    let resinWeightWithCorrection = $derived(resinTotalWeightWithCorrection * (1 - hardenerRation))
 
-    let hardenerWeightWithCrrection = $derived(
-        resinTotalWeightWithCorrection * hardenerRation,
-    );
+    let hardenerWeightWithCrrection = $derived(resinTotalWeightWithCorrection * hardenerRation)
 </script>
 
 <div>
@@ -41,10 +35,7 @@
         <div>Вес карбона: {ceilTo(carbonWeight, 2)}г</div>
         <div>Вес смолы: {ceilTo(resinWeight, 2)}г</div>
         <div>
-            Вес смолы с избытком: {ceilTo(resinTotalWeightWithCorrection, 2)}г = {ceilTo(
-                resinWeight,
-                2,
-            )}г * {resinCorrectionRation}
+            Вес смолы с избытком: {ceilTo(resinTotalWeightWithCorrection, 2)}г = {ceilTo(resinWeight, 2)}г * {resinCorrectionRation}
         </div>
     </div>
 
